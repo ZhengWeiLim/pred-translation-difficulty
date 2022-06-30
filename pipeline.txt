@@ -5,22 +5,24 @@ applicable to Russian-English, French-English and Chinese-English.
 
 @ Preprocesses
 
-The subtitles are somewhat pre-aligned at the sentence level (mostly by frame/time stamps). Before aligning them by
-words, the sentences across all languages are tokenized with nltk (except for Chinese, which is segmented from
-CoreNLPParser), which distinguish space-separated tokens from punctuations. Upon closer examinations I discovered some
-words containing characters not decodable by unicode scheme. I opted to discard these tokens -- most of them are
-gibberish anyway. I also removed whitespace unicodes, specifically '\u200e' and '\u200b', which do not appear in prints,
-but can be confusing when they are dealt with across different models.
+The subtitles are somewhat pre-aligned at the sentence level (by frame/timestamp overlaps/no semantics involved). Before
+aligning them by words, the sentences across all languages are tokenized with nltk (except for Chinese, which is
+segmented from CoreNLPParser), which distinguish space-separated tokens from punctuations. Upon closer examinations I
+discovered some words containing characters not decodable by unicode scheme. I opted to discard these tokens -- most of
+them are gibberish anyway. I also removed whitespace unicodes, specifically '\u200e' and '\u200b', which do not appear
+in prints, but can be confusing when they are dealt with across different models.
 
 
 
 @ Alignments
 
 The word aligner comes from https://github.com/neulab/awesome-align, w/o --train_co (for better performance in our set of
-languages). This outputs probabilities for each pair of word probabilities, which could be used as a filter for quality
-control. Here a word can be aligned with multiple words, and are treated as one form of alignment. Likewise, because
-timestamp-based alignments are susceptible to errors, I also employed a sentence aligner (from
-https://tfhub.dev/google/LaBSE/2) to assign similarity scores to pre-aligned sentences for QC purposes.
+languages, note that, unlike fast-align, awesome aligner does not incorporate word distributions of the corpus in the
+alignments, so even if there are poorly aligned sentences, it would not affect word-level alignments). This outputs
+probabilities for each pair of word probabilities, which could be used as a filter for quality control. Here a word can
+be aligned with multiple words, and are treated as one form of alignment. Likewise, because timestamp-based alignments
+are susceptible to errors, I also employed a sentence aligner (from https://tfhub.dev/google/LaBSE/2) to assign
+similarity scores to pre-aligned sentences, for QC purposes.
 
 
 
@@ -73,11 +75,11 @@ https://github.com/matbahasa/MALINDO_Morph. This allows prefixes and suffixes to
 also duplicate forms (kata ganda) to show quantity, and the analyser will show if it is one of "R-penuh"/"R-separa"/
 "R-ritma", depending on the duplicates' types. This information can be matched with English "-s" suffix for plural
 nouns. On the English side, I only lemmatize a word if it is one of verbs, nouns, adjectives or adverbs, and include
-their suffixes accordingly (by max-matching the words) for alignments. This is specifically to restrict change of forms
-for auxiliary verbs (e.g., has, was), which do not have any equivalents in Malay. Note that, apart for Malay, spaCy
-package covers every other languages we are interested in for morphology analysis and POS tagging. Now that I have found
-a good enough analyser and a tagger for Malay, there should not be any more problems when we expand the procedure to
-other languages.
+their suffixes accordingly (by max-matching the words, e.g. "apple -s") for alignments. This is specifically to restrict
+change of forms for auxiliary verbs (e.g., has, was), which do not have any equivalents in Malay. Note that, apart for
+Malay, spaCy package covers every other languages we are interested in for morphology analysis and POS tagging. Now that
+I have found a good enough analyser and a tagger for Malay, there should not be any more problems when we expand the
+procedure to other languages.
 
 
 
@@ -90,5 +92,21 @@ to retrieve something like "the top X nouns that has the most translation variet
 that while lemmatized forms highlight words that are culturally important, tagged words capture cultural specificity --
 these are still conjectures, we will need more robust evidence/test (where direction of translations can be controlled),
 and should further examine this with other language pairs.
+
+
+
+@ Translation variety measurements
+
+## Mutual information ##
+The mutual information of a given source word (src) that is aligned with multiple targets (tar) is given by
+\sum_{tar} p(tar|src) x log( p(tar|src) / p(src) ).  Higher mutual information indicates higher dependence between a
+source word and its translations, therefore a "peakier" / a more regular translation distribution. We rank words in
+reverse by their mutual information with translations.
+
+## Bayesian with Dirichlet prior (Monroe et al) ##
+
+## Ratio with Lidstone smoothing ##
+This is a ratio-based method with smoothing: (#_uniq_alignments + \alpha) / (src_frequency + \alpha x vocab_size).
+\alpha = 20
 
 

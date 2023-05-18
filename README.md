@@ -16,8 +16,8 @@ output scores of [open subtitles](https://opus.nlpl.eu/OpenSubtitles-v2018.php).
 
     `<sword> <sword frequency> <tword> <tword frequency> <tword normalized frequency> <tword alignment score sum> <tword alignment score normalized>`
 
-3. Code for semantic alignment by [Thompson et al. (2020)](https://par.nsf.gov/servlets/purl/10213620) is available 
-[here](https://osf.io/tngba/).  
+3. Semantic alignments based on [Thompson et al. (2020)](https://par.nsf.gov/servlets/purl/10213620)  can be found in `evaluation/semantic-alignments-thompson/compute-alignment/eval-alignments`.
+Original code is available [here](https://osf.io/tngba/).  
 
 ## Evaluation
 ### 1. Tranlsation process  

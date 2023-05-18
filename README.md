@@ -71,16 +71,19 @@ columns: "English name", "Japanese name", "Semantic similarity", "No.Trans L1-L2
 note: "Cognate status" could be used for loanword analysis
 
 **Dutch** 
+
 Number-of-translation norms for Dutch–English translation pairs: A new tool for examining language production
 (Tokowicz, Kroll, de Groot, and van Hell, 2002)
-source: https://link.springer.com/content/pdf/10.3758/BF03195472.pdf?pdf=button%20sticky
-filename: dutch-similarityratings.csv
+
+source: https://link.springer.com/content/pdf/10.3758/BF03195472.pdf?pdf=button%20sticky <br />
+filename: dutch-similarityratings.csv <br />
 columns: "Dutch Word", "English Word", "DE Semantic Sim Rating", "ED Semantic Sim Rating"
 
 **Spanish**
-Translation norms for English and Spanish: The role of lexical variables, word class, and L2 proficiency in negotiating translation ambiguity
-(Prior, MacWhinney and Kroll, 2007)
 
-source: https://link.springer.com/article/10.3758/BF03193001#SecESM1
-filename: EnglishToSpanish_TranslationPairs.csv, SpanishToEnglish_TranslationPairs.csv
+Translation norms for English and Spanish: The role of lexical variables, word class, and L2 proficiency in negotiating translation ambiguity
+(Prior, MacWhinney and Kroll, 2007) 
+
+source: https://link.springer.com/article/10.3758/BF03193001#SecESM1 <br />
+filename: EnglishToSpanish_TranslationPairs.csv, SpanishToEnglish_TranslationPairs.csv <br />
 columns: "Word", "Word_num_trans"
